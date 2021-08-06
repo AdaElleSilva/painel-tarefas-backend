@@ -12,13 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/api")
 @Api(value="API Tarefa")
-@CrossOrigin(origins="*")
 public class TarefaController {
 
     @Autowired
@@ -38,13 +39,12 @@ public class TarefaController {
 
     @PostMapping("/tarefas")
     @ApiOperation(value="Salva uma Tarefa")
-    public ResponseEntity<?> salvarTarefa(@Valid @RequestBody Tarefa tarefa) {
+    public ResponseEntity<?> salvarTarefa(@Valid @RequestBody Tarefa tarefa) throws URISyntaxException {
 
-        System.out.println(tarefa.getDataInicial());
-        System.out.println(new Date());
+
         if(tarefa.getDataInicial().after(new Date())) {
             Tarefa tarefaSalva = tarefaRepository.save(tarefa);
-            return ResponseEntity.created(null).body(tarefaSalva);
+            return ResponseEntity.created(new URI("/tarefas/" + tarefaSalva.getId())).body(tarefaSalva);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Erro("A data inicial deve ser maior do que a data atual"));
 
@@ -53,12 +53,11 @@ public class TarefaController {
 
     @DeleteMapping("/tarefas/{id}")
     @ApiOperation(value="Deleta uma Tarefa")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarTarefa(@PathVariable(value="id") Integer id) {
         tarefaRepository.deleteById(id);
     }
 
-    @PutMapping("/tarefas{id}")
+    @PutMapping("/tarefas/{id}")
     @ApiOperation(value="Atualiza uma Tarefa")
     public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable Integer id, @Valid @RequestBody Tarefa tarefa) {
         Tarefa tarefaSalva = tarefaRepository.findById(id).get();

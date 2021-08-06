@@ -11,12 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/api")
 @Api(value="API Projeto")
-@CrossOrigin(origins="*")
 public class ProjetoController {
 
     @Autowired
@@ -36,15 +37,14 @@ public class ProjetoController {
 
     @PostMapping("/projetos")
     @ApiOperation(value="Salva um Projeto")
-    public ResponseEntity<Projeto> salvarProjeto(@Valid @RequestBody Projeto projeto) {
+    public ResponseEntity<Projeto> salvarProjeto(@Valid @RequestBody Projeto projeto) throws URISyntaxException {
 
         Projeto projetoSalvo = projetoRepository.save(projeto);
-        return ResponseEntity.created(null).body(projetoSalvo);
+        return ResponseEntity.created(new URI("/projetos/" + projetoSalvo.getId())).body(projetoSalvo);
     }
 
     @DeleteMapping("/projetos/{id}")
     @ApiOperation(value="Deleta um Projeto")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarProjeto(@PathVariable(value="id") Integer id) {
         projetoRepository.deleteById(id);
     }

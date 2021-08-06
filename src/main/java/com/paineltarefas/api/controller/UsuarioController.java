@@ -11,12 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/api")
 @Api(value="API Usuário")
-@CrossOrigin(origins="*")
 public class UsuarioController {
 
     @Autowired
@@ -36,25 +37,29 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     @ApiOperation(value="Salva um Usuário")
-    public ResponseEntity<Usuario> salvarUsuario(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> salvarUsuario(@Valid @RequestBody Usuario usuario) throws URISyntaxException {
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
-        return ResponseEntity.created(null).body(usuarioSalvo);
+        return ResponseEntity.created(new URI("/usuarios/" + usuarioSalvo.getId())).body(usuarioSalvo);
+
     }
 
     @DeleteMapping("/usuarios/{id}")
     @ApiOperation(value="Deleta um Usuário")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarUsuario(@PathVariable(value="id") Integer id) {
+
         usuarioRepository.deleteById(id);
+
     }
 
     @PutMapping("/usuarios/{id}")
     @ApiOperation(value="Atualiza um Usuário")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
+
         Usuario usuarioSalvo = usuarioRepository.findById(id).get();
         BeanUtils.copyProperties(usuario, usuarioSalvo, "id");
         usuarioRepository.save(usuarioSalvo);
         return ResponseEntity.ok(usuarioSalvo);
+
     }
 }
