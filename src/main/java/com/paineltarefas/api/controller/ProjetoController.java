@@ -1,5 +1,6 @@
 package com.paineltarefas.api.controller;
 
+import com.paineltarefas.api.model.Tarefa;
 import com.paineltarefas.api.repository.ProjetoRepository;
 import com.paineltarefas.api.model.Projeto;
 import io.swagger.annotations.Api;
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/api")
@@ -33,11 +35,13 @@ public class ProjetoController {
     @GetMapping("/projetos/{id}")
     @ApiOperation(value="Retorna um único projeto")
     public ResponseEntity<Projeto> listaUnicoProjeto(@PathVariable(value="id") Integer id) {
-        try {
-            Projeto projeto = projetoRepository.findById(id).get();
-            return ResponseEntity.ok(projeto);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // return 404, with null body
+
+        Optional<Projeto> projeto = projetoRepository.findById(id);
+
+        if(!projeto.isEmpty()){
+            return ResponseEntity.ok(projeto.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
     }

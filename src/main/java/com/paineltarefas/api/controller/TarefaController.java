@@ -1,6 +1,7 @@
 package com.paineltarefas.api.controller;
 
 import com.paineltarefas.api.model.Projeto;
+import com.paineltarefas.api.model.Usuario;
 import com.paineltarefas.api.repository.TarefaRepository;
 import com.paineltarefas.api.model.Erro;
 import com.paineltarefas.api.model.Tarefa;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/api")
@@ -35,11 +37,13 @@ public class TarefaController {
     @GetMapping("/tarefas/{id}")
     @ApiOperation(value="Retorna uma única tarefa")
     public ResponseEntity<Tarefa> listaUnicaTarefa(@PathVariable(value="id") Integer id) {
-        try {
-            Tarefa tarefa = tarefaRepository.findById(id).get();
-            return ResponseEntity.ok(tarefa);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // return 404, with null body
+
+        Optional<Tarefa> tarefa = tarefaRepository.findById(id);
+
+        if(!tarefa.isEmpty()){
+            return ResponseEntity.ok(tarefa.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 

@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value="/api")
@@ -33,11 +34,13 @@ public class UsuarioController {
     @GetMapping("/usuarios/{id}")
     @ApiOperation(value="Retorna um único usuário")
     public ResponseEntity<Usuario> listaUnicoUsuario(@PathVariable(value="id") Integer id) {
-        try {
-            Usuario usuario = usuarioRepository.findById(id).get();
-            return ResponseEntity.ok(usuario);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // return 404, with null body
+
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+
+        if(!usuario.isEmpty()){
+            return ResponseEntity.ok(usuario.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
