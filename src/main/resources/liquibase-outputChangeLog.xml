@@ -1,34 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"/>
-    <changeSet author="Ada (generated)" id="1628035759773-1">
+    <changeSet author="Ada (generated)" id="1628213585717-1">
         <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
     </changeSet>
-    <changeSet author="Ada (generated)" id="1628035759773-2">
-        <createTable tableName="PROJETO">
-            <column name="ID" type="INT(10)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ATIVO" type="BOOLEAN(1)"/>
-            <column name="NOME" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="Ada (generated)" id="1628035759773-3">
-        <addPrimaryKey columnNames="ID" constraintName="CONSTRAINT_1" tableName="PROJETO"/>
-    </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-1">
+
+    <changeSet author="Ada (generated)" id="1628213660273-1">
         <createSequence sequenceName="HIBERNATE_SEQUENCE"/>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-2">
+    <changeSet author="Ada (generated)" id="1628213660273-2">
         <createTable tableName="PROJETO">
-            <column name="ID" type="INT(10)">
-                <constraints nullable="false"/>
+            <column autoIncrement="true" name="ID" type="INT(10)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_1"/>
             </column>
             <column name="ATIVO" type="BOOLEAN(1)"/>
             <column name="DESCRICAO" type="VARCHAR(255)"/>
             <column name="NOME" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-3">
+    <changeSet author="Ada (generated)" id="1628213660273-3">
         <createTable tableName="TAREFA">
             <column autoIncrement="true" name="ID" type="INT(10)">
                 <constraints primaryKey="true" primaryKeyName="CONSTRAINT_9"/>
@@ -37,7 +24,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DATA_FINAL" type="date"/>
-            <column name="DATA_INICIAL" type="date"/>
+            <column name="DATA_INICIAL" type="date">
+                <constraints nullable="false"/>
+            </column>
             <column name="DESCRICAO" type="VARCHAR(255)"/>
             <column name="NOME" type="VARCHAR(255)"/>
             <column name="PROJETO_ID" type="INT(10)">
@@ -48,7 +37,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-4">
+    <changeSet author="Ada (generated)" id="1628213660273-4">
         <createTable tableName="USUARIO">
             <column autoIncrement="true" name="ID" type="INT(10)">
                 <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
@@ -59,23 +48,20 @@
             <column name="NOME" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-5">
-        <addPrimaryKey columnNames="ID" constraintName="CONSTRAINT_1" tableName="PROJETO"/>
-    </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-6">
+    <changeSet author="Ada (generated)" id="1628213660273-5">
         <createIndex indexName="FK31MG2PPRCEEIM7DKI4AQ2QJKB_INDEX_9" tableName="TAREFA">
             <column name="PROJETO_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-7">
+    <changeSet author="Ada (generated)" id="1628213660273-6">
         <createIndex indexName="FKH1RHPA56MVM9TUR1Y66HFRVHN_INDEX_9" tableName="TAREFA">
             <column name="USUARIO_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-8">
+    <changeSet author="Ada (generated)" id="1628213660273-7">
         <addForeignKeyConstraint baseColumnNames="PROJETO_ID" baseTableName="TAREFA" constraintName="FK31MG2PPRCEEIM7DKI4AQ2QJKB" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="PROJETO"/>
     </changeSet>
-    <changeSet author="izaque (generated)" id="1628130233000-9">
+    <changeSet author="Ada (generated)" id="1628213660273-8">
         <addForeignKeyConstraint baseColumnNames="USUARIO_ID" baseTableName="TAREFA" constraintName="FKH1RHPA56MVM9TUR1Y66HFRVHN" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="USUARIO"/>
     </changeSet>
 </databaseChangeLog>
