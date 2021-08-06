@@ -1,11 +1,13 @@
 package com.paineltarefas.api.controller;
 
+import com.paineltarefas.api.model.Tarefa;
 import com.paineltarefas.api.repository.UsuarioRepository;
 import com.paineltarefas.api.model.Usuario;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,13 @@ public class UsuarioController {
 
     @GetMapping("/usuarios/{id}")
     @ApiOperation(value="Retorna um único usuário")
-    public Usuario listaUnicoUsuario(@PathVariable(value="id") Integer id) {
-        return usuarioRepository.findById(id).get();
+    public ResponseEntity<Usuario> listaUnicoUsuario(@PathVariable(value="id") Integer id) {
+        try {
+            Usuario usuario = usuarioRepository.findById(id).get();
+            return ResponseEntity.ok(usuario);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // return 404, with null body
+        }
     }
 
     @PostMapping("/usuarios")
