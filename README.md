@@ -4,9 +4,9 @@
 
 Processo seletivo para a DB1
 
-##Setup
+##GIT URL
 
-`git clone  git.github.com/AdaElleSilva/painel-tarefas-backend.git`
+`https://github.com/AdaElleSilva/painel-tarefas-backend.git`
 
 ##Dependências Utilizadas
 
@@ -23,7 +23,7 @@ Processo seletivo para a DB1
 
 Link para acessar a documentação do Swagger:
 
-`http://localhost:8080/swagger-ui.html#/usuario-controller`
+`http://localhost:8080/swagger-ui.html#`
 
 ##Liquibase
 
