@@ -6,7 +6,6 @@ import com.paineltarefas.api.model.Tarefa;
 import com.paineltarefas.api.model.Usuario;
 import com.paineltarefas.api.repository.ProjetoRepository;
 import com.paineltarefas.api.repository.UsuarioRepository;
-import liquibase.pro.packaged.D;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
